@@ -24,6 +24,8 @@ config/icon="res://art/Icon_HenryHudsonHead.png"
 
 window/size/viewport_width=800
 window/size/viewport_height=600
+window/size/window_width_override=1440
+window/size/window_height_override=1080
 window/stretch/mode="viewport"
 
 [dotnet]
@@ -92,4 +94,5 @@ start_space={
 
 [rendering]
 
+textures/vram_compression/import_etc2_astc=true
 environment/defaults/default_clear_color=Color(0.151276, 0.151276, 0.151276, 1)
