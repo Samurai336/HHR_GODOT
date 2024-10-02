@@ -133,7 +133,7 @@ scale = Vector2(6.275, 14.25)
 
 [node name="houseSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_l4j8e")
-animation = &"damaged"
+animation = &"normal"
 
 [node name="ChimneySmoke" parent="." instance=ExtResource("3_rgn2o")]
 position = Vector2(41, -44)
