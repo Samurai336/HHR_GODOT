@@ -1,0 +1,86 @@
+[gd_scene load_steps=12 format=3 uid="uid://dahas057lnvqh"]
+
+[ext_resource type="Texture2D" uid="uid://d17osx0c1orim" path="res://art/sprites/CannonBall.png" id="1_c34eq"]
+[ext_resource type="Script" path="res://assets/player/CannonBall/a_2d_cannon_ball.cs" id="1_hfftx"]
+[ext_resource type="AudioStream" uid="uid://bgvi6focxwued" path="res://assets/audio/sfx/51427_smcameron_synthetic_bomb.wav" id="3_8rc36"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_la1da"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_opiau"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w4lty"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bd1jd"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68yu1"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nomq2"]
+atlas = ExtResource("1_c34eq")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_120dc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_la1da")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_opiau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w4lty")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bd1jd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68yu1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nomq2")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"ballHit",
+"speed": 15.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rjfyp"]
+radius = 5.0
+
+[node name="A2D_CannonBall" type="Area2D"]
+collision_layer = 8
+collision_mask = 6
+script = ExtResource("1_hfftx")
+
+[node name="CannonBallSprite" type="AnimatedSprite2D" parent="."]
+z_index = 7
+scale = Vector2(0.25, 0.25)
+sprite_frames = SubResource("SpriteFrames_120dc")
+animation = &"ballHit"
+
+[node name="CannonBallCollision" type="CollisionShape2D" parent="."]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_rjfyp")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="explode" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("3_8rc36")
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenNotifierExited"]
+[connection signal="finished" from="sounds/explode" to="." method="ExplosionComplete"]

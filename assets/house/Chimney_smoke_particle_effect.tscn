@@ -1,0 +1,46 @@
+[gd_scene load_steps=8 format=3 uid="uid://o427xbbjd6t1"]
+
+[ext_resource type="Texture2D" uid="uid://ceyjwnuksklcw" path="res://art/particles/cannonSmoke.png" id="1_m28rs"]
+
+[sub_resource type="CurveTexture" id="CurveTexture_l1fht"]
+
+[sub_resource type="Curve" id="Curve_qdj66"]
+min_value = -1.0
+_data = [Vector2(0.0132626, -0.47697), 0.0, 0.0, 0, 0, Vector2(0.997347, 0.654043), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_dyb64"]
+curve = SubResource("Curve_qdj66")
+
+[sub_resource type="Curve" id="Curve_mihly"]
+_data = [Vector2(0, 0.0286591), 0.0, 0.0, 0, 0, Vector2(0.970822, 0.753838), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_eiwxc"]
+curve = SubResource("Curve_mihly")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_5wb80"]
+lifetime_randomness = 0.1
+particle_flag_disable_z = true
+emission_shape = 2
+emission_sphere_radius = 3.36
+orbit_velocity_min = -0.2
+orbit_velocity_max = 9.49949e-08
+orbit_velocity_curve = SubResource("CurveTexture_dyb64")
+gravity = Vector3(0, -100, 0)
+scale_min = 0.0
+scale_max = 0.5
+scale_curve = SubResource("CurveTexture_eiwxc")
+alpha_curve = SubResource("CurveTexture_l1fht")
+
+[node name="ChimneySmoke" type="GPUParticles2D"]
+physics_interpolation_mode = 2
+modulate = Color(1, 1, 1, 0.447059)
+position = Vector2(-1, -1)
+amount = 250
+process_material = SubResource("ParticleProcessMaterial_5wb80")
+texture = ExtResource("1_m28rs")
+preprocess = 10.0
+speed_scale = 0.4
+fract_delta = false
+local_coords = true

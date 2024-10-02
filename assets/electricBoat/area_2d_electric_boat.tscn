@@ -1,0 +1,136 @@
+[gd_scene load_steps=17 format=3 uid="uid://ceutgdea6t1gd"]
+
+[ext_resource type="Texture2D" uid="uid://ms0s6fw33v84" path="res://art/sprites/electricShip.png" id="1_3esgd"]
+[ext_resource type="Script" path="res://assets/electricBoat/ElectricBoat.cs" id="1_hypt6"]
+[ext_resource type="PackedScene" uid="uid://d2j6e1j8vynbg" path="res://assets/electricBoat/pcb/a_2d_pcb.tscn" id="2_2f606"]
+[ext_resource type="AudioStream" uid="uid://cvdnxhkfpgcyp" path="res://assets/audio/sfx/33380__DJ_Chronos__Boom.wav" id="3_e12ru"]
+[ext_resource type="AudioStream" uid="uid://c32ehual2g0tl" path="res://assets/audio/sfx/19487__Halleck__JacobsLadderSingle2.wav" id="4_dmawt"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bqbs3"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(0, 127, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mnbr5"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(127, 127, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1kjfr"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(254, 127, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_krgwe"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(0, 254, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2njfv"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(127, 254, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mpkk1"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(254, 254, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqlt8"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(0, 0, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rr152"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(127, 0, 127, 127)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_de74n"]
+atlas = ExtResource("1_3esgd")
+region = Rect2(254, 0, 127, 127)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mcjw1"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bqbs3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mnbr5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1kjfr")
+}],
+"loop": true,
+"name": &"damaged",
+"speed": 15.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_krgwe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2njfv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mpkk1")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"kill",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqlt8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rr152")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_de74n")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_42vjb"]
+radius = 34.0
+height = 100.0
+
+[node name="area_2d_electric_boat" type="Area2D"]
+collision_layer = 4
+collision_mask = 29
+script = ExtResource("1_hypt6")
+PCB_projectile = ExtResource("2_2f606")
+health = 60
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="explode" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("3_e12ru")
+
+[node name="firePcbSound" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("4_dmawt")
+
+[node name="electricShipSprite" type="AnimatedSprite2D" parent="."]
+z_index = 2
+sprite_frames = SubResource("SpriteFrames_mcjw1")
+animation = &"normal"
+autoplay = "normal"
+
+[node name="electricShipCollision" type="CollisionShape2D" parent="."]
+position = Vector2(2, -10)
+shape = SubResource("CapsuleShape2D_42vjb")
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-1.5, 11.75)
+scale = Vector2(3.55, 9.125)
+
+[node name="pcbFireMarker" type="Marker2D" parent="."]
+position = Vector2(0, -26)
+
+[node name="FirePcbTimer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="area_entered" from="." to="." method="on_area_entered"]
+[connection signal="body_entered" from="." to="." method="on_area_entered"]
+[connection signal="finished" from="sounds/explode" to="." method="ExplosionComplete"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="queue_free"]
+[connection signal="timeout" from="FirePcbTimer" to="." method="FireThePcb"]

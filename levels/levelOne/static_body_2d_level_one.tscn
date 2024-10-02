@@ -1,0 +1,31 @@
+[gd_scene load_steps=4 format=3 uid="uid://bm1rpx4dd17rm"]
+
+[ext_resource type="PackedScene" uid="uid://shcofvc82vt8" path="res://levels/levelOne/prlx_bg_level_one.tscn" id="1_nid1d"]
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_ahon2"]
+normal = Vector2(1, 0)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_hjpon"]
+
+[node name="StaticBody2DLevelOne" type="StaticBody2D"]
+collision_layer = 2
+
+[node name="PrlxBgLevelOne" parent="." instance=ExtResource("1_nid1d")]
+
+[node name="CS2D_WorldBoundryLeft" type="CollisionShape2D" parent="."]
+position = Vector2(192, 300)
+shape = SubResource("WorldBoundaryShape2D_ahon2")
+
+[node name="CS2D_WorldBoundryRight" type="CollisionShape2D" parent="."]
+position = Vector2(597, 300)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_ahon2")
+
+[node name="CS2D_worldBoundryBottom" type="CollisionShape2D" parent="."]
+position = Vector2(384, 600)
+shape = SubResource("WorldBoundaryShape2D_hjpon")
+
+[node name="CS2D_worldBoundryTop" type="CollisionShape2D" parent="."]
+position = Vector2(384, 8)
+rotation = 3.14159
+shape = SubResource("WorldBoundaryShape2D_hjpon")

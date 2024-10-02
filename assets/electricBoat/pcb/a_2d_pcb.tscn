@@ -1,0 +1,90 @@
+[gd_scene load_steps=11 format=3 uid="uid://d2j6e1j8vynbg"]
+
+[ext_resource type="Script" path="res://assets/electricBoat/pcb/a2d_pcb.cs" id="1_6kccg"]
+[ext_resource type="Texture2D" uid="uid://y2d1ofox354i" path="res://art/sprites/PCBCharge.png" id="2_pnyml"]
+[ext_resource type="AudioStream" uid="uid://dm4mg2f4i26qe" path="res://assets/audio/sfx/51465_smcameron_flak_gun_sound.wav" id="3_h8eh1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dmvf3"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2vwnj"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w744j"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrqgp"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5seof"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_arwhe"]
+atlas = ExtResource("2_pnyml")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l0nhx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dmvf3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2vwnj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w744j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrqgp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5seof")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_arwhe")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"pcbHit",
+"speed": 20.0
+}]
+
+[node name="a2d_pcb" type="Area2D"]
+z_index = 7
+z_as_relative = false
+scale = Vector2(0.25, 0.25)
+collision_layer = 16
+collision_mask = 31
+script = ExtResource("1_6kccg")
+rotationSpeed = 0.25
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="explodeSfx" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("3_h8eh1")
+
+[node name="PCBAnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+z_index = 7
+sprite_frames = SubResource("SpriteFrames_l0nhx")
+animation = &"pcbHit"
+frame_progress = 0.45688
+
+[node name="PcbCollision" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-47, -17, -20, -17, -9, 0, -1, 0, 8, -17, 36, -17, 48, 5, 36, 27, 9, 27, -1, 9, -10, 9, -20, 27, -47, 27, -60, 4)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(-6.5, 3)
+scale = Vector2(5.75, 5.2)
+
+[connection signal="area_entered" from="." to="." method="on_collision"]
+[connection signal="body_entered" from="." to="." method="on_collision"]
+[connection signal="finished" from="sounds/explodeSfx" to="." method="queue_free"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="queue_free"]

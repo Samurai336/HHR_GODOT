@@ -1,0 +1,16 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Run HHR",
+            "type": "coreclr",
+            "request": "launch",
+            "preLaunchTask": "build",
+            "program":"/usr/local/bin/godot4",
+            "cwd":"${workspaceFolder}",
+            "console": "internalConsole",
+            "stopAtEntry": false,
+            "args": ["--debug-collisions","--path","${workspaceRoot}"]
+        }
+    ]
+}

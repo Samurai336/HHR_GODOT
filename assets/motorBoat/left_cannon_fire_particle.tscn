@@ -1,0 +1,44 @@
+[gd_scene load_steps=8 format=3 uid="uid://d2w1tp2q64a3w"]
+
+[ext_resource type="Texture2D" uid="uid://ceyjwnuksklcw" path="res://art/particles/cannonSmoke.png" id="1_keuj1"]
+[ext_resource type="Script" path="res://assets/motorBoat/CannonFireParticle.cs" id="2_8jbp2"]
+
+[sub_resource type="Curve" id="Curve_lsc8g"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.997347, 0.0286591), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_3vhda"]
+curve = SubResource("Curve_lsc8g")
+
+[sub_resource type="Curve" id="Curve_1qfbe"]
+_data = [Vector2(0.00795756, 0.00870001), 0.0, 0.0, 0, 0, Vector2(1, 0.527636), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_rpxhc"]
+curve = SubResource("Curve_1qfbe")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ydf7j"]
+particle_flag_disable_z = true
+direction = Vector3(-1, 0, 0)
+spread = 30.743
+flatness = 0.5
+initial_velocity_min = 30.0
+initial_velocity_max = 75.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.0
+scale_curve = SubResource("CurveTexture_rpxhc")
+alpha_curve = SubResource("CurveTexture_3vhda")
+
+[node name="LeftCannonFireParticle" type="GPUParticles2D"]
+scale = Vector2(0.1, 0.1)
+emitting = false
+amount = 7
+process_material = SubResource("ParticleProcessMaterial_ydf7j")
+texture = ExtResource("1_keuj1")
+lifetime = 10.0
+one_shot = true
+speed_scale = 20.0
+explosiveness = 1.0
+script = ExtResource("2_8jbp2")
+
+[connection signal="finished" from="." to="." method="SmokeComplete"]

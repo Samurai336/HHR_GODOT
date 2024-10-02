@@ -1,0 +1,90 @@
+[gd_scene load_steps=12 format=3 uid="uid://23te7l466sl2"]
+
+[ext_resource type="Texture2D" uid="uid://cmjwkr8caqiq4" path="res://art/sprites/Boat2.png" id="1_85344"]
+[ext_resource type="Script" path="res://assets/motorBoat/MotorBoat.cs" id="1_mnw8e"]
+[ext_resource type="AudioStream" uid="uid://bgvi6focxwued" path="res://assets/audio/sfx/51427_smcameron_synthetic_bomb.wav" id="3_65m37"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_84omf"]
+atlas = ExtResource("1_85344")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b2br5"]
+atlas = ExtResource("1_85344")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2nnpg"]
+atlas = ExtResource("1_85344")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjns4"]
+atlas = ExtResource("1_85344")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_acblu"]
+atlas = ExtResource("1_85344")
+region = Rect2(512, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k654e"]
+atlas = ExtResource("1_85344")
+region = Rect2(640, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5w6qx"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_84omf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b2br5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2nnpg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjns4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_acblu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k654e")
+}, {
+"duration": 1.0,
+"texture": null
+}],
+"loop": false,
+"name": &"boatSplosion",
+"speed": 15.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_765ib"]
+radius = 18.0
+height = 54.0
+
+[node name="Area2DMotorBoat" type="Area2D"]
+collision_layer = 4
+collision_mask = 29
+script = ExtResource("1_mnw8e")
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="killExplode" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("3_65m37")
+
+[node name="BoatSprite" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.5, 0.5)
+sprite_frames = SubResource("SpriteFrames_5w6qx")
+animation = &"boatSplosion"
+
+[node name="BoatCollision" type="CollisionShape2D" parent="."]
+position = Vector2(-5, -3)
+shape = SubResource("CapsuleShape2D_765ib")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-4, -4)
+scale = Vector2(3.4, 6.7)
+
+[connection signal="area_entered" from="." to="." method="on_body_entered"]
+[connection signal="body_entered" from="." to="." method="on_body_entered"]
+[connection signal="finished" from="sounds/killExplode" to="." method="ExplosionComplete"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="OnScreenNotifierExited"]

@@ -1,0 +1,105 @@
+[gd_scene load_steps=12 format=3 uid="uid://brody0mucn8pt"]
+
+[ext_resource type="Script" path="res://levels/levelOne/level1.cs" id="1_3g3nn"]
+[ext_resource type="PackedScene" uid="uid://lqyt0ay64phy" path="res://assets/player/car_bdy_2d_player_ship.tscn" id="1_j4bpm"]
+[ext_resource type="PackedScene" uid="uid://bm1rpx4dd17rm" path="res://levels/levelOne/static_body_2d_level_one.tscn" id="2_4qaxw"]
+[ext_resource type="PackedScene" uid="uid://bf7mlrr3aacj0" path="res://assets/house/house.tscn" id="2_77l6r"]
+[ext_resource type="PackedScene" uid="uid://23te7l466sl2" path="res://assets/motorBoat/area_2d_boat.tscn" id="3_0xlfo"]
+[ext_resource type="PackedScene" uid="uid://ceutgdea6t1gd" path="res://assets/electricBoat/area_2d_electric_boat.tscn" id="4_8f122"]
+[ext_resource type="PackedScene" uid="uid://grppe7lr5n6k" path="res://assets/powerUps/a_2d_power_skull.tscn" id="5_qm2bs"]
+[ext_resource type="AudioStream" uid="uid://5jf2ngweui42" path="res://assets/audio/music/race-cars-phonk-gaming-music-196477.mp3" id="6_dynjy"]
+[ext_resource type="Shader" path="res://wobbleShader.gdshader" id="7_coito"]
+[ext_resource type="Texture2D" uid="uid://2c4130tb3ise" path="res://art/LageBackgound.png" id="8_pm1pl"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vp5vj"]
+resource_local_to_scene = true
+shader = ExtResource("7_coito")
+shader_parameter/amplitude = 0.014
+shader_parameter/frequency = 25.0
+shader_parameter/speed = 15.0
+shader_parameter/amplitude_vertical = 0.0
+shader_parameter/frequency_vertical = 0.0
+shader_parameter/speed_vertical = 0.0
+shader_parameter/scroll_direction = Vector2(0, 0)
+shader_parameter/scrolling_speed = 0.08
+shader_parameter/enable_palette_cycling = false
+shader_parameter/palette_speed = 0.1
+
+[node name="Level1" type="Node"]
+script = ExtResource("1_3g3nn")
+Cottages = ExtResource("2_77l6r")
+MotorBoats = ExtResource("3_0xlfo")
+ElectricBoats = ExtResource("4_8f122")
+PowerUpSpawn = ExtResource("5_qm2bs")
+
+[node name="music" type="Node" parent="."]
+
+[node name="levelOneSong" type="AudioStreamPlayer" parent="music"]
+stream = ExtResource("6_dynjy")
+parameters/looping = true
+
+[node name="background_holder_offset" type="TextureRect" parent="."]
+offset_left = 798.0
+offset_right = 1635.0
+offset_bottom = 653.0
+texture = ExtResource("8_pm1pl")
+
+[node name="StaticBody2DLevelOne" parent="." instance=ExtResource("2_4qaxw")]
+
+[node name="CarBdy2DPlayerShip" parent="." instance=ExtResource("1_j4bpm")]
+position = Vector2(392, 517)
+collision_mask = 7
+health = 100
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(400, 300)
+
+[node name="motorBoatSpawn" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="electricBoatSpawn" type="Timer" parent="."]
+wait_time = 15.0
+
+[node name="cottageSpawn" type="Timer" parent="."]
+wait_time = 3.0
+autostart = true
+
+[node name="powerUpSpawn" type="Timer" parent="."]
+wait_time = 30.0
+
+[node name="playerDeadTimeOut" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[node name="screenKillSequence" type="Timer" parent="."]
+wait_time = 3.0
+one_shot = true
+
+[node name="houseSpawnMarkerLeft" type="Marker2D" parent="."]
+position = Vector2(85, -70)
+
+[node name="houseSpawnMarkerRight" type="Marker2D" parent="."]
+position = Vector2(715, -70)
+
+[node name="boatSpawnLess" type="Marker2D" parent="."]
+position = Vector2(250, -70)
+
+[node name="boatSpawnMore" type="Marker2D" parent="."]
+position = Vector2(500, -70)
+
+[node name="wobble_shader_effect" type="ColorRect" parent="."]
+visible = false
+z_index = 10
+material = SubResource("ShaderMaterial_vp5vj")
+offset_left = -101.0
+offset_top = -57.0
+offset_right = 948.0
+offset_bottom = 672.0
+
+[connection signal="timeout" from="motorBoatSpawn" to="." method="OnMotorboatSpawnerTimeOut"]
+[connection signal="timeout" from="electricBoatSpawn" to="." method="OnElectricShipSpawnerTimeOut"]
+[connection signal="timeout" from="cottageSpawn" to="." method="OnCottageSpawnerTimeOut"]
+[connection signal="timeout" from="powerUpSpawn" to="." method="OnPowerUpSpawn"]
+[connection signal="timeout" from="playerDeadTimeOut" to="." method="playerDeadSequenceTimeout"]
+[connection signal="timeout" from="screenKillSequence" to="." method="ScreenKillSequenceCompleteTimeOut"]

@@ -1,0 +1,31 @@
+[gd_scene load_steps=5 format=3 uid="uid://grppe7lr5n6k"]
+
+[ext_resource type="Texture2D" uid="uid://bmybbwyv5v7ja" path="res://art/sprites/skullPowerUp.png" id="1_f2c2x"]
+[ext_resource type="Script" path="res://assets/powerUps/A2DPowerUp.cs" id="1_hms4l"]
+[ext_resource type="AudioStream" uid="uid://gca0d3clrp8s" path="res://assets/audio/sfx/61042__timtube__evil_laughing.wav" id="3_4dnc8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1031p"]
+radius = 12.0
+
+[node name="A2D_PowerSkull" type="Area2D"]
+collision_layer = 16
+script = ExtResource("1_hms4l")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_f2c2x")
+
+[node name="SkullCollision2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CapsuleShape2D_1031p")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(-1, 13)
+scale = Vector2(1.45, 3.2)
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="evilLaugh" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("3_4dnc8")
+
+[connection signal="area_entered" from="." to="." method="on_body_entered"]
+[connection signal="body_entered" from="." to="." method="on_body_entered"]
+[connection signal="finished" from="sounds/evilLaugh" to="." method="OnScreenNotifierExited"]

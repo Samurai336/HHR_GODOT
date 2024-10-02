@@ -1,0 +1,221 @@
+[gd_scene load_steps=24 format=3 uid="uid://doj6d5gcwi3ah"]
+
+[ext_resource type="Script" path="res://GameManager.cs" id="1_jbyib"]
+[ext_resource type="AudioStream" uid="uid://ble8elrg3vksb" path="res://assets/audio/sfx/startingBoom.wav" id="2_q8ogc"]
+[ext_resource type="Texture2D" uid="uid://df6blckr4gs5x" path="res://art/StartScreen.png" id="2_twu7t"]
+[ext_resource type="Texture2D" uid="uid://cdfyr1apc80wv" path="res://art/PlayButton.png" id="3_hk5ja"]
+[ext_resource type="Texture2D" uid="uid://dssoylorvlruf" path="res://art/sprites/HenryHudsonHead.png" id="4_j6n3q"]
+[ext_resource type="AudioStream" uid="uid://c0cya7rrljidc" path="res://assets/audio/music/Butterfly in Paris.mp3" id="6_j7n4u"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mqoeu"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lqd54"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_a2kda"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wm6yv"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(384, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qgw6"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77234"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gfpu6"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qp7mm"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(384, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eghji"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ikwnv"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pfnjs"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5fpcb"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(384, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_abltq"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5n2sa"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_c4twn"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dcwu"]
+atlas = ExtResource("4_j6n3q")
+region = Rect2(384, 128, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_cvpo3"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mqoeu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lqd54")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_a2kda")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wm6yv")
+}],
+"loop": true,
+"name": &"closeToDead",
+"speed": 0.25
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qgw6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77234")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gfpu6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qp7mm")
+}],
+"loop": true,
+"name": &"death",
+"speed": 0.25
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eghji")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ikwnv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pfnjs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5fpcb")
+}],
+"loop": true,
+"name": &"fullHealth",
+"speed": 0.25
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_abltq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5n2sa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_c4twn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dcwu")
+}],
+"loop": true,
+"name": &"quarterHealth",
+"speed": 0.25
+}]
+
+[node name="GameManager" type="Node"]
+process_mode = 3
+script = ExtResource("1_jbyib")
+
+[node name="StartingBoom" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("2_q8ogc")
+
+[node name="MainMenu" type="CanvasLayer" parent="."]
+
+[node name="TextureRect" type="TextureRect" parent="MainMenu"]
+offset_right = 800.0
+offset_bottom = 600.0
+texture = ExtResource("2_twu7t")
+
+[node name="Button" type="Button" parent="MainMenu"]
+offset_left = 242.0
+offset_top = 73.0
+offset_right = 540.0
+offset_bottom = 141.0
+action_mode = 0
+icon = ExtResource("3_hk5ja")
+flat = true
+
+[node name="RichTextLabel" type="RichTextLabel" parent="MainMenu"]
+offset_left = 420.0
+offset_top = 523.0
+offset_right = 511.0
+offset_bottom = 551.0
+theme_override_colors/default_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/normal_font_size = 22
+text = ", 2024"
+scroll_active = false
+
+[node name="henryHealthMeter" type="AnimatedSprite2D" parent="MainMenu"]
+z_index = 1
+z_as_relative = false
+position = Vector2(591, 485)
+scale = Vector2(1.11328, 1.11328)
+sprite_frames = SubResource("SpriteFrames_cvpo3")
+animation = &"fullHealth"
+autoplay = "fullHealth"
+
+[node name="ButterflyInParis" type="AudioStreamPlayer" parent="MainMenu"]
+stream = ExtResource("6_j7n4u")
+parameters/looping = true
+
+[node name="PauseMenu" type="CanvasLayer" parent="."]
+visible = false
+
+[node name="ColorRect" type="ColorRect" parent="PauseMenu"]
+offset_right = 800.0
+offset_bottom = 600.0
+color = Color(1, 1, 1, 0.286275)
+
+[node name="Button" type="Button" parent="PauseMenu"]
+offset_left = 308.0
+offset_top = 246.0
+offset_right = 546.0
+offset_bottom = 308.0
+text = "Press 'Q' or Click Here To Quit"
+
+[node name="MainGameNode" type="Node" parent="."]
+process_mode = 1
+
+[node name="GameUI" type="Node2D" parent="MainGameNode"]
+
+[node name="henryHealthMeter" type="AnimatedSprite2D" parent="MainGameNode/GameUI"]
+z_index = 11
+z_as_relative = false
+position = Vector2(98, 97)
+scale = Vector2(1.11328, 1.11328)
+sprite_frames = SubResource("SpriteFrames_cvpo3")
+animation = &"fullHealth"
+autoplay = "fullHealth"
+
+[connection signal="pressed" from="MainMenu/Button" to="." method="StartGameButtonPress"]
+[connection signal="pressed" from="PauseMenu/Button" to="." method="EndGameButtonPress"]

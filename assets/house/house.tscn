@@ -1,0 +1,145 @@
+[gd_scene load_steps=18 format=3 uid="uid://bf7mlrr3aacj0"]
+
+[ext_resource type="Script" path="res://assets/house/house.cs" id="1_cuk4c"]
+[ext_resource type="Texture2D" uid="uid://ciu6hvu7kd7bx" path="res://art/sprites/CottageRight2.png" id="1_ythm2"]
+[ext_resource type="PackedScene" uid="uid://o427xbbjd6t1" path="res://assets/house/Chimney_smoke_particle_effect.tscn" id="3_rgn2o"]
+[ext_resource type="AudioStream" uid="uid://bcmp784twan5j" path="res://assets/audio/sfx/51466_smcameron_flak_hit.wav" id="4_pu1of"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lxna4"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(0, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ehu1o"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(128, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xuiwo"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(256, 128, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_n4ol3"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(0, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4k7ch"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(128, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nacqh"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(256, 384, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ckkno"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(0, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cxcj2"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(128, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pm81f"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(256, 256, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dhccw"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(0, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2qi3b"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(128, 0, 128, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yi7jq"]
+atlas = ExtResource("1_ythm2")
+region = Rect2(256, 0, 128, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_l4j8e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lxna4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ehu1o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xuiwo")
+}],
+"loop": true,
+"name": &"damaged",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_n4ol3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4k7ch")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nacqh")
+}],
+"loop": true,
+"name": &"dead",
+"speed": 8.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ckkno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cxcj2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pm81f")
+}],
+"loop": false,
+"name": &"kill",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dhccw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2qi3b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yi7jq")
+}],
+"loop": true,
+"name": &"normal",
+"speed": 8.0
+}]
+
+[node name="house" type="Area2D"]
+position = Vector2(0, 1)
+collision_layer = 4
+collision_mask = 8
+script = ExtResource("1_cuk4c")
+health = 30
+
+[node name="sounds" type="Node" parent="."]
+
+[node name="houseExplode" type="AudioStreamPlayer" parent="sounds"]
+stream = ExtResource("4_pu1of")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(-34, -45, 36, -25, 59, 2, 59, 39, 3, 61, -58, 21, -58, -17)
+
+[node name="VisibleOnScreenEnabler2D" type="VisibleOnScreenEnabler2D" parent="."]
+position = Vector2(1.75, -10.5)
+scale = Vector2(6.275, 14.25)
+
+[node name="houseSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_l4j8e")
+animation = &"damaged"
+
+[node name="ChimneySmoke" parent="." instance=ExtResource("3_rgn2o")]
+position = Vector2(41, -44)
+preprocess = 30.0
+draw_order = 0
+
+[connection signal="area_entered" from="." to="." method="on_area_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenEnabler2D" to="." method="OnScreenNotifierExited"]
+[connection signal="animation_finished" from="houseSprite2D" to="." method="Animation2DCompleted"]

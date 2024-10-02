@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://shcofvc82vt8"]
+
+[ext_resource type="Script" path="res://levels/levelOne/prlx_bg_level_one.cs" id="1_ki2ab"]
+[ext_resource type="Texture2D" uid="uid://dyh8pu8eel85y" path="res://art/sprites/LageBackgound.png" id="2_cbqpk"]
+
+[node name="PrlxBgLevelOne" type="ParallaxBackground"]
+script = ExtResource("1_ki2ab")
+
+[node name="ParallaxLayerRiver" type="ParallaxLayer" parent="."]
+motion_mirroring = Vector2(0, 600)
+
+[node name="Sprite2D" type="Sprite2D" parent="ParallaxLayerRiver"]
+position = Vector2(-1, 0)
+texture = ExtResource("2_cbqpk")
+centered = false
