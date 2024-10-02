@@ -1,7 +1,5 @@
 # Godot 4+ specific ignores
 .godot/
-art/
-assets/audio/
 exportBuild/
 
 # Godot-specific ignores
