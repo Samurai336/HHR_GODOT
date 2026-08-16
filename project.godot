@@ -8,6 +8,10 @@
 
 config_version=5
 
+[animation]
+
+compatibility/default_parent_skeleton_in_mesh_instance_3d=true
+
 [application]
 
 config/name="Henry Hudsons Revenge 2024"
@@ -16,7 +20,7 @@ From the original design Doc: \"Henry Hudson’s revenge is a vertical shooter w
 to look like crap. Gameplay include power ups such as increasing the number of cannon balls that can be fired at once, restoring health extra lives and a kill all on screen.\"  
 "
 run/main_scene="res://game_manager.tscn"
-config/features=PackedStringArray("4.3", "C#", "Forward Plus")
+config/features=PackedStringArray("4.7", "C#", "Forward Plus")
 boot_splash/image="res://art/LoadingScreen.png"
 config/icon="res://art/Icon_HenryHudsonHead.png"
 
